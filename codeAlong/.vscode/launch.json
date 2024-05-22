@@ -6,26 +6,17 @@
   "configurations": [
     {
       "type": "java",
-      "name": "main",
-      "request": "launch",
-      "mainClass": "main",
-      "projectName": "codeAlong_9c78ac4a"
-    },
-    {
-      "type": "java",
       "name": "Current File",
       "request": "launch",
       "mainClass": "${file}"
     },
     {
       "type": "java",
-      // "name": "lox",
-      "name": "Debug (Launch) - Current File",
+      "name": "lox",
       "request": "launch",
-      // "mainClass": "lox.lox",
-      "mainClass": "${file}",
-      "projectName": "codeAlong_9c78ac4a",
-      "args": "hello"
+      "mainClass": "lox.lox",
+      "projectName": "codeAlong_9a3e3303",
+      "args": "lox/lolman.txt"
     }
   ]
 }

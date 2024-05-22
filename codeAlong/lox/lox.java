@@ -1,3 +1,4 @@
+
 package lox;
 
 import java.io.IOException;
@@ -10,7 +11,8 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
+
+import lox.Scanner;
 
 /**
  * lox
@@ -53,18 +55,17 @@ public class lox {
     }
 
     private static void run(String source) {
+        // source holds the contents of the file has it is , in string format
+        // the length of source is based on every char ex: if source has one written in
+        // it the length will be 3 or if only five spaces are typed in then length is 5
+        System.out.println(source.length());
         Scanner scanner = new Scanner(source);
-        // List<Token> tokens = scanner.scanTokens();
+        List<Token> tokens = scanner.scanTokens();
 
-        // // For now, just print the tokens.
-        // for (Token token : tokens) {
-        // System.out.println(token);
-        // }
-    }
-
-    static void error(int line, String message) {
-        report(line, "", message);
-
+        // For now, just print the tokens.
+        for (Token token : tokens) {
+            System.out.println(token);
+        }
     }
 
     private static void report(int line, String where, String message) {
