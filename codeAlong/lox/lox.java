@@ -58,7 +58,7 @@ public class lox {
         // source holds the contents of the file has it is , in string format
         // the length of source is based on every char ex: if source has one written in
         // it the length will be 3 or if only five spaces are typed in then length is 5
-        System.out.println(source.length());
+        // so the length of source is the number of characters in the file
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
@@ -66,6 +66,10 @@ public class lox {
         for (Token token : tokens) {
             System.out.println(token);
         }
+    }
+
+    static void error(int line, String message) {
+        report(line, "", message);
     }
 
     private static void report(int line, String where, String message) {
