@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "GenerateAst",
+      "request": "launch",
+      "mainClass": "tools.GenerateAst",
+      "projectName": "codeAlong_9a3e3303"
+    },
+    {
+      "type": "java",
       "name": "Current File",
       "request": "launch",
       "mainClass": "${file}"

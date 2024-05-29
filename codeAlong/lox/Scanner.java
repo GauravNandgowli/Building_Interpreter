@@ -164,45 +164,80 @@ class Scanner {
             case '(':
                 addToken(TokenType.LEFT_PAREN);
                 break;
+
             case ')':
                 addToken(TokenType.RIGHT_PAREN);
                 break;
+
             case '{':
                 addToken(TokenType.LEFT_BRACE);
                 break;
+
             case '}':
                 addToken(TokenType.RIGHT_BRACE);
                 break;
+
             case ',':
                 addToken(TokenType.COMMA);
                 break;
+
             case '.':
                 addToken(TokenType.DOT);
                 break;
+
             case '-':
                 addToken(TokenType.MINUS);
                 break;
+
             case '+':
                 addToken(TokenType.PLUS);
                 break;
+
             case ';':
                 addToken(TokenType.SEMICOLON);
                 break;
+
             case '*':
                 addToken(TokenType.STAR);
                 break;
-            // case '!':
-            // addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
-            // break;
-            // case '=':
-            // addToken(match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL);
-            // break;
-            // case '<':
-            // addToken(match('=') ? TokenType.LESS_EQUAL : TokenType.LESS);
-            // break;
-            case '>':
-                addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
+
+            case '!':
+                if (match('=')) {
+                    addToken((TokenType.BANG_EQUAL));
+                } else
+                    addToken(TokenType.BANG);
                 break;
+
+            case '=':
+                if (match('=')) {
+                    addToken((TokenType.EQUAL_EQUAL));
+                } else
+                    addToken(TokenType.EQUAL);
+                break;
+
+            case '<':
+                if (match('=')) {
+                    addToken((TokenType.LESS_EQUAL));
+                } else
+                    addToken(TokenType.LESS);
+                break;
+
+            case '>':
+                if (match('=')) {
+                    addToken((TokenType.GREATER_EQUAL));
+                } else
+                    addToken(TokenType.GREATER);
+                break;
+
+            // For type determination, capture conversion is used, wherein for your example
+            // int is first boxed to Integer and then the closest common super class of
+            // Integer and String is fetched, which is Object class. So the type for the
+            // Conditional Expression is Object and so the method with Object as parameter
+            // is called.
+            // case '>':
+            // addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
+            // break; Won't work because of the above reason
+
             case '/':
                 if (match('/')) {
                     // A comment goes until the end of the line.
