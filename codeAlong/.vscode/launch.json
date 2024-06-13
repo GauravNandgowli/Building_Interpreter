@@ -6,10 +6,18 @@
   "configurations": [
     {
       "type": "java",
+      "name": "AstPrinter",
+      "request": "launch",
+      "mainClass": "lox.AstPrinter",
+      "projectName": "codeAlong_9a3e3303"
+    },
+    {
+      "type": "java",
       "name": "GenerateAst",
       "request": "launch",
       "mainClass": "tools.GenerateAst",
-      "projectName": "codeAlong_9a3e3303"
+      "projectName": "codeAlong_9a3e3303",
+      "args": "/home/gaurav/projects/Building_Interpreter/codeAlong/lox"
     },
     {
       "type": "java",
