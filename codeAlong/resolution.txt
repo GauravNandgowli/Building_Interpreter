@@ -1,0 +1,1 @@
+so in visitors pattern implemented here , abstract class defines the accept method which when extended has to be implemented by concrete classes. and interepreter.java implements the visitor interface.
