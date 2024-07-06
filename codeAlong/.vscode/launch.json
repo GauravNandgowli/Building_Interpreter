@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "test",
+      "request": "launch",
+      "mainClass": "lox.test",
+      "projectName": "codeAlong_9a3e3303"
+    },
+    {
+      "type": "java",
       "name": "AstPrinter",
       "request": "launch",
       "mainClass": "lox.AstPrinter",

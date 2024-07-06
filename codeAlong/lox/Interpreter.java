@@ -1,8 +1,8 @@
 package lox;
 
-class Interpreter implements Expr.Visitor<Object> {
+class Interpreter implements Visitor<Object> {
     @Override
-    public Object visitLiteralExpr(Expr.Literal expr) {
+    public Object visitLiteralExpr(Literal expr) {
         return expr.value;
     }
 
@@ -16,7 +16,7 @@ class Interpreter implements Expr.Visitor<Object> {
     }
 
     @Override
-    public Object visitUnaryExpr(Expr.Unary expr) {
+    public Object visitUnaryExpr(Unary expr) {
         Object right = evaluate(expr.right);
 
         switch (expr.operator.type) {
@@ -78,7 +78,7 @@ class Interpreter implements Expr.Visitor<Object> {
     }
 
     @Override
-    public Object visitGroupingExpr(Expr.Grouping expr) {
+    public Object visitGroupingExpr(Grouping expr) {
         return evaluate(expr.expression);
     }
 
@@ -87,7 +87,7 @@ class Interpreter implements Expr.Visitor<Object> {
     }
 
     @Override
-    public Object visitBinaryExpr(Expr.Binary expr) {
+    public Object visitBinaryExpr(Binary expr) {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right);
 
