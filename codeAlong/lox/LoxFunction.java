@@ -3,10 +3,10 @@ package lox;
 import java.util.List;
 
 class LoxFunction implements LoxCallable {
-    private final Stmt.Function declaration;
+    private final Function declaration;
     private final Environment closure;
 
-    LoxFunction(Stmt.Function declaration, Environment closure) {
+    LoxFunction(Function declaration, Environment closure) {
         this.closure = closure;
         this.declaration = declaration;
     }

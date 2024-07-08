@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
+class Resolver implements ExprVisitor<Void>, Visitor<Void> {
     private final Interpreter interpreter;
     private final Stack<Map<String, Boolean>> scopes = new Stack<>();
     private FunctionType currentFunction = FunctionType.NONE;
@@ -20,7 +20,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitBlockStmt(Stmt.Block stmt) {
+    public Void visitBlockStmt(Block stmt) {
         beginScope();
         resolve(stmt.statements);
         endScope();
@@ -28,13 +28,13 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitExpressionStmt(Stmt.Expression stmt) {
+    public Void visitExpressionStmt(Expression stmt) {
         resolve(stmt.expression);
         return null;
     }
 
     @Override
-    public Void visitFunctionStmt(Stmt.Function stmt) {
+    public Void visitFunctionStmt(Function stmt) {
         declare(stmt.name);
         define(stmt.name);
 
@@ -43,7 +43,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitIfStmt(Stmt.If stmt) {
+    public Void visitIfStmt(If stmt) {
         resolve(stmt.condition);
         resolve(stmt.thenBranch);
         if (stmt.elseBranch != null)
@@ -52,15 +52,15 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitPrintStmt(Stmt.Print stmt) {
+    public Void visitPrintStmt(Print stmt) {
         resolve(stmt.expression);
         return null;
     }
 
     @Override
-    public Void visitReturnStmt(Stmt.Return stmt) {
+    public Void visitReturnStmt(ReturnStmt stmt) {
         if (currentFunction == FunctionType.NONE) {
-            lox.error(stmt.keyword, "Can't return from top-level code.");
+            Lox.error(stmt.keyword, "Can't return from top-level code.");
         }
         if (stmt.value != null) {
             resolve(stmt.value);
@@ -70,14 +70,14 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitWhileStmt(Stmt.While stmt) {
+    public Void visitWhileStmt(While stmt) {
         resolve(stmt.condition);
         resolve(stmt.body);
         return null;
     }
 
     @Override
-    public Void visitVarStmt(Stmt.Var stmt) {
+    public Void visitVarStmt(Var stmt) {
         declare(stmt.name);
         if (stmt.initializer != null) {
             resolve(stmt.initializer);
@@ -87,21 +87,21 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitAssignExpr(Expr.Assign expr) {
+    public Void visitAssignExpr(Assign expr) {
         resolve(expr.value);
         resolveLocal(expr, expr.name);
         return null;
     }
 
     @Override
-    public Void visitBinaryExpr(Expr.Binary expr) {
+    public Void visitBinaryExpr(Binary expr) {
         resolve(expr.left);
         resolve(expr.right);
         return null;
     }
 
     @Override
-    public Void visitCallExpr(Expr.Call expr) {
+    public Void visitCallExpr(Call expr) {
         resolve(expr.callee);
 
         for (Expr argument : expr.arguments) {
@@ -112,34 +112,34 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitGroupingExpr(Expr.Grouping expr) {
+    public Void visitGroupingExpr(Grouping expr) {
         resolve(expr.expression);
         return null;
     }
 
     @Override
-    public Void visitLiteralExpr(Expr.Literal expr) {
+    public Void visitLiteralExpr(Literal expr) {
         return null;
     }
 
     @Override
-    public Void visitLogicalExpr(Expr.Logical expr) {
+    public Void visitLogicalExpr(Logical expr) {
         resolve(expr.left);
         resolve(expr.right);
         return null;
     }
 
     @Override
-    public Void visitUnaryExpr(Expr.Unary expr) {
+    public Void visitUnaryExpr(Unary expr) {
         resolve(expr.right);
         return null;
     }
 
     @Override
-    public Void visitVariableExpr(Expr.Variable expr) {
+    public Void visitVariableExpr(Variable expr) {
         if (!scopes.isEmpty() &&
                 scopes.peek().get(expr.name.lexeme) == Boolean.FALSE) {
-            lox.error(expr.name,
+            Lox.error(expr.name,
                     "Can't read local variable in its own initializer.");
         }
 
@@ -152,7 +152,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     private void resolveFunction(
-            Stmt.Function function, FunctionType type) {
+            Function function, FunctionType type) {
         FunctionType enclosingFunction = currentFunction;
         currentFunction = type;
         beginScope();
@@ -183,7 +183,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
         Map<String, Boolean> scope = scopes.peek();
         if (scope.containsKey(name.lexeme)) {
-            lox.error(name,
+            Lox.error(name,
                     "Already a variable with this name in this scope.");
         }
         scope.put(name.lexeme, false);
